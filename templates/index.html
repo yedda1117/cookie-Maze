@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多算法路径规划可视化系统</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="game-logo">
+                    <div class="logo-container">
+                        <div class="logo-icon">🍪</div>
+                        <div class="logo-text">
+                            <div class="logo-title">饼干迷宫冒险</div>
+                            <!-- <div class="logo-subtitle">COOKIE MAZE QUEST</div> -->
+                        </div>
+                        <!-- <img class="logo-watermark" src="logo.png" alt="logo"> -->
+                        <div class="logo-hint">
+                            💡 提示: 普通地形消耗5体力，蜂蜜地会额外消耗姜饼人10体力！
+                        </div>
+                    </div>
+                    
+                    <div class="logo-glow"></div>
+                </div>
+
+        <div class="main-content">
+            <!-- 左侧：网格画布 -->
+            <div class="canvas-section">
+                
+                
+                <div class="canvas-wrap">
+                    <div class="canvas-container">
+                        <canvas id="gridCanvas"></canvas>
+                        
+                        <!-- 姜饼人体力值显示 - 悬浮在画布右上角 -->
+                        <div class="energy-display">
+                            <div class="energy-icon">🍪</div>
+                            <div class="energy-info">
+                                <div class="energy-label">姜饼人体力</div>
+                                <div class="energy-bar-container">
+                                    <div class="energy-bar" id="energyBar"></div>
+                                    <div class="energy-text" id="energyText">100</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 图例说明（在画布容器内部底部） -->
+                        <div class="canvas-legend">
+                            <div class="legend-grid">
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#90EE90;"></span>
+                                    <span class="legend-label">起点</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#FF6B6B;"></span>
+                                    <span class="legend-label">终点</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#8B4513;"></span>
+                                    <span class="legend-label">障碍</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#FFB84D;"></span>
+                                    <span class="legend-label">蜂蜜地</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#FFE4B5;"></span>
+                                    <span class="legend-label">探索</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#DEB887;"></span>
+                                    <span class="legend-label">完成</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-box" style="background:#FFD700;"></span>
+                                    <span class="legend-label">路径</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <!-- 右侧：控制面板 -->
+            <div class="control-panel">
+                
+                <!-- 算法选择（移到最上面） -->
+                <section class="panel-section panel-algo">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;算法选择</h3>
+                    <div class="form-group"> <label>搜索算法:</label> 
+                        <select id="algorithmSelect">
+                            <option value="bfs">BFS (广度优先搜索)</option>
+                            <option value="dfs">DFS (深度优先搜索)</option>
+                            <option value="dijkstra">Dijkstra (单源最短路)</option>
+                            <option value="astar-manhattan">A* (启发式搜索-曼哈顿距离)</option>
+                            <option value="astar-euclidean">A* (启发式搜索-欧氏距离)</option>
+                        </select> 
+                    </div>
+                </section>
+        
+                <section class="panel-section panel-exec">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;执行搜索</h3>
+                    <!-- <div class="form-group"> 
+                        <label for="exploreSpeed">探索动画速度 (ms/格): <span id="exploreSpeedVal">60</span> ms</label> 
+                        <input id="exploreSpeed" type="range" min="10" max="500" value="60"> 
+                    </div> -->
+                    <div class="form-group"> 
+                        <label><input id="keepExploration" type="checkbox" checked> 保留探索颜色（动画结束后）</label> 
+                    </div>
+                    <div class="button-group"> 
+                        <button id="searchBtn" class="btn btn-success btn-large">执行搜索</button>
+                        <button id="resetBtn" class="btn btn-secondary">重置搜索</button> 
+                        <!-- <button id="clearBtn" class="btn btn-danger">清空地图</button> -->
+                    </div>
+                </section>
+
+                <section class="panel-section stats panel-stats">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计信息</h3>
+                    
+                    <div class="stat-item"> 
+                        <span class="stat-label">路径长度:</span> 
+                        <span class="stat-value" id="pathLength">-</span> 
+                    </div>
+                    <div class="stat-item"> 
+                        <span class="stat-label">总代价 🍯:</span> 
+                        <span class="stat-value" id="totalCost">-</span> 
+                    </div>
+                    <div style="font-size: 0.75em; color: #888; margin-top: 4px; padding: 0 12px; line-height: 1.3;">
+                    </div>
+                    <div class="stat-item"> 
+                        <span class="stat-label">访问节点:</span> 
+                        <span class="stat-value" id="visitedCount">-</span> 
+                    </div>
+                    <div class="stat-item"> 
+                        <span class="stat-label">扩展节点:</span> 
+                        <span class="stat-value" id="expandedCount">-</span> 
+                    </div>
+                    <div class="stat-item"> 
+                        <span class="stat-label">运行时间:</span> 
+                        <span class="stat-value" id="elapsedTime">-</span> ms 
+                    </div>
+                    <div class="stat-item" style="margin-top: 10px;"> 
+                        <span class="stat-label">状态:</span> 
+                        <span class="stat-value" id="status">就绪</span> 
+                    </div>
+                </section>
+
+                
+            </div>
+        </div>
+        <div class="canvas-toolbar">
+                        <div class="toolbar-group">
+                            <button id="setStartBtn" class="btn btn-primary">设置<br>起点</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button id="setEndBtn" class="btn btn-primary">设置<br>终点</button>
+                        </div>
+
+                        <div class="toolbar-group">
+                            <button id="setObstacleBtn" class="btn btn-warning">设置<br>障碍</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button id="setHoneyBtn" class="btn btn-honey">设置<br>蜂蜜地</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button id="clearObstaclesBtn" class="btn btn-warning">清除<br>障碍</button>
+                        </div>
+
+                        <div class="toolbar-group">
+                            <button id="generateRandomBtn" class="btn btn-info">随机<br>迷宫</button>
+                            </div>
+                        <div class="toolbar-group">
+                            <button id="generateDFSBtn" class="btn btn-info">DFS<br>迷宫</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button id="clearBtn" class="btn btn-danger">清空<br>地图</button>
+                        </div>
+                    </div>
+
+
+    </div>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
