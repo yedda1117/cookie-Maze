@@ -60,10 +60,6 @@
   background: rgba(255,250,240,0.55);
   border: 1px dashed rgba(139,69,19,0.25);
 ">
-  <b style="color:#8B4513;">📸 演示截图 / 动图（可选）</b>
-  <div style="color:#5C4033; margin-top:6px;">
-    把截图/动图放到 <code>docs/assets/</code>，然后在这里引用：<code>![demo](docs/assets/demo.gif)</code>
-  </div>
 </div>
 
 <hr/>
@@ -129,18 +125,6 @@
 </tr>
 </table>
 
-### 🎨 甜点主题配色
-
-| 元素 | 颜色 | 说明 |
-|------|------|------|
-| 🍪 饼干地面 | `rgba(255, 250, 240, 0.3)` | 普通通行，无额外代价 |
-| 🍫 巧克力墙 | `#8B4513` | 不可通行障碍（带渐变光泽） |
-| 🍯 蜂蜜地形 | `#FFB347` | 粘稠地形，消耗 1 点体力 |
-| 🏠 姜饼屋 | `#90EE90` | 冒险起点 |
-| 🎁 圣诞礼物 | `#FF6B6B` | 胜利终点 |
-| 🔵 探索中 | `#98D8C8` | 正在访问节点 |
-| 🟤 已完成 | `#DEB887` | 已处理节点 |
-| 🟡 最终路径 | `#FFD700` | 找到的最佳路径 |
 
 ### 🎬 动画系统
 
@@ -578,18 +562,7 @@ cookie-Maze/
 
 ---
 
-## 📄 许可证
 
-<div style="background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,193,7,0.2)); padding: 20px; border-radius: 16px; text-align: center; margin: 20px 0;">
-  <div style="font-size: 1.2em; font-weight: 600; color: #8B4513; margin-bottom: 8px;">
-    MIT License
-  </div>
-  <div style="color: #5C4033;">
-    本项目采用 MIT 许可证 - 详见 LICENSE 文件
-  </div>
-</div>
-
----
 
 ## 💌 联系我们
 
@@ -603,26 +576,6 @@ cookie-Maze/
     <div>
       <div style="font-weight: 600; color: #8B4513;">Email</div>
       <div style="font-size: 0.9em; color: #5C4033;">dd3292129627@163.com</div>
-    </div>
-  </div>
-</a>
-
-<a href="https://github.com/yedda1117/cookie-Maze/issues" style="text-decoration: none;">
-  <div style="background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(139,69,19,0.1); display: flex; align-items: center; gap: 12px;">
-    <span style="font-size: 1.5em;">🐛</span>
-    <div>
-      <div style="font-weight: 600; color: #8B4513;">Issues</div>
-      <div style="font-size: 0.9em; color: #5C4033;">报告问题</div>
-    </div>
-  </div>
-</a>
-
-<a href="https://github.com/yedda1117/cookie-Maze/discussions" style="text-decoration: none;">
-  <div style="background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(139,69,19,0.1); display: flex; align-items: center; gap: 12px;">
-    <span style="font-size: 1.5em;">💬</span>
-    <div>
-      <div style="font-weight: 600; color: #8B4513;">Discussions</div>
-      <div style="font-size: 0.9em; color: #5C4033;">讨论交流</div>
     </div>
   </div>
 </a>
